@@ -11,7 +11,10 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/pswd", endpoints.GetPasswordHandler)
-	r.POST("/pswd", endpoints.AddPasswordHandler)
+	r.GET("/pswd/all", endpoints.GetPasswordsHandler)
+	r.POST("/pswd/create", endpoints.AddPasswordHandler)
+	r.PUT("/pswd/update", endpoints.UpdatePasswordHandler)
+	r.DELETE("/pswd/delete", endpoints.DeletePasswordHandler)
 
 	if err := r.Run(":8080"); err != nil {
 		fmt.Printf("Failed to run server: %v\n", err)
