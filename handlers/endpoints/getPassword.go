@@ -9,7 +9,7 @@ import (
 )
 
 func GetPasswordHandler(c *gin.Context) {
-	service := c.Param("service")
+	service := c.Query("service")
 	if service == "" {
 		c.JSON(400, gin.H{"error": "Service parameter is required"})
 		return
@@ -17,7 +17,7 @@ func GetPasswordHandler(c *gin.Context) {
 
 	var cmd *exec.Cmd
 
-	username := c.Param("username")
+	username := c.Query("username")
 
 	if username == "" {
 		cmd = exec.Command("./pswd-cli", "get", "--service", service)
