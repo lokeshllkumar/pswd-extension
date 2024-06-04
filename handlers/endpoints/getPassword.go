@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"os/exec"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,9 +21,9 @@ func GetPasswordHandler(c *gin.Context) {
 	username := c.Query("username")
 
 	if username == "" {
-		cmd = exec.Command("./pswd-cli", "get", "--service", service)
+		cmd = exec.Command("pswd-cli", "get", "--service", service)
 	} else {
-		cmd = exec.Command("./pswd-cli", "get", "--service", service, "--username", username)
+		cmd = exec.Command("pswd-cli", "get", "--service", service, "--username", username)
 	}
 
 	var out bytes.Buffer

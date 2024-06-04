@@ -17,7 +17,7 @@ func UpdatePasswordHandler(c *gin.Context) {
 		return
 	}
 
-	cmd := exec.Command("./pswd-cli", "update", "--service", service, "--username", username, "--newPassword", newPassword)
+	cmd := exec.Command("pswd-cli", "update", "--service", service, "--username", username, "--newPassword", newPassword)
 
 	// var out bytes.Buffer
 	// cmd.Stdout = &out

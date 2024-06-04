@@ -9,7 +9,7 @@ import (
 )
 
 func GetPasswordsHandler(c *gin.Context) {
-	cmd := exec.Command("./pswd-cli", "list")
+	cmd := exec.Command("pswd-cli", "list")
 
 	var out bytes.Buffer
 	cmd.Stdout = &out

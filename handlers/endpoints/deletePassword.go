@@ -19,9 +19,9 @@ func DeletePasswordHandler(c *gin.Context) {
 	username := c.Query("username")
 
 	if username == "" {
-		cmd = exec.Command("./pswd-cli", "update", "--service", "service")
+		cmd = exec.Command("pswd-cli", "update", "--service", "service")
 	} else {
-		cmd = exec.Command("./pswd-cli", "update", "--service", service, "--username", username)
+		cmd = exec.Command("pswd-cli", "update", "--service", service, "--username", username)
 	}
 
 	var out bytes.Buffer

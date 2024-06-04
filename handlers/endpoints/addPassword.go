@@ -12,7 +12,7 @@ func AddPasswordHandler(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request payload"})
 	}
-	cmd := exec.Command("./pswd-cli", "add", "--service", req.Service, "--username", req.Username, "--password", req.Password)
+	cmd := exec.Command("pswd-cli", "add", "--service", req.Service, "--username", req.Username, "--password", req.Password)
 	// var out bytes.Buffer
 	// cmd.Stdout = &out
 	err := cmd.Run()
