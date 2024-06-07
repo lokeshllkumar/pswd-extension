@@ -19,7 +19,7 @@ func DeletePasswordHandler(c *gin.Context) {
 	username := c.Query("username")
 
 	if username == "" {
-		cmd = exec.Command("pswd-cli", "update", "--service", "service")
+		cmd = exec.Command("pswd-cli", "update", "--service", service)
 	} else {
 		cmd = exec.Command("pswd-cli", "update", "--service", service, "--username", username)
 	}
@@ -28,7 +28,7 @@ func DeletePasswordHandler(c *gin.Context) {
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
-		c.JSON(500, gin.H{"error": "Failes to execute delete subcommand"})
+		c.JSON(500, gin.H{"error": "Failed to execute delete subcommand"})
 		return
 	}
 

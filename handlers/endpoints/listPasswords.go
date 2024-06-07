@@ -3,9 +3,9 @@ package endpoints
 import (
 	"bytes"
 	"os/exec"
-	"encoding/json"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lokeshllkumar/pswd-extension/utils"
 )
 
 func GetPasswordsHandler(c *gin.Context) {
@@ -19,8 +19,8 @@ func GetPasswordsHandler(c *gin.Context) {
 		return
 	}
 
-	var records []map[string]interface{}
-	if err := json.Unmarshal(out.Bytes(), &records); err != nil {
+	records, err := utils.ParseCLIOutput(out.String())
+	if err != nil {
 		c.JSON(500, gin.H{"error": "Error while parsing output"})
 		return
 	}

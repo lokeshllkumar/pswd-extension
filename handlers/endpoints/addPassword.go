@@ -5,10 +5,11 @@ import (
 	"os/exec"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lokeshllkumar/pswd-extension/utils"
 )
 
 func AddPasswordHandler(c *gin.Context) {
-	var req PasswordEntry
+	var req utils.PasswordEntry
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request payload"})
 	}
