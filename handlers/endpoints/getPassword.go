@@ -1,7 +1,6 @@
 package endpoints
 
 import (
-	"bytes"
 	"os/exec"
 
 	"github.com/gin-gonic/gin"
@@ -20,20 +19,18 @@ func GetPasswordHandler(c *gin.Context) {
 	username := c.Query("username")
 
 	if username == "" {
-		cmd = exec.Command("pswd-cli", "get", "--service", service)
+		cmd = exec.Command("/usr/local/bin/pswd-cli/pswd-cli", "get", "--service", service)
 	} else {
-		cmd = exec.Command("pswd-cli", "get", "--service", service, "--username", username)
+		cmd = exec.Command("/usr/local/bin/pswd-cli/pswd-cli", "get", "--service", service, "--username", username)
 	}
 
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
+	stdout, err := cmd.Output()
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to execute get subcommand"})
 		return
 	}
 
-	records, err := utils.ParseCLIOutput(out.String())
+	records, err := utils.ParseCLIOutput(string(stdout))
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Error while parsing output"})
 		return

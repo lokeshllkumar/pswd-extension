@@ -1,7 +1,6 @@
 package endpoints
 
 import (
-	_ "bytes"
 	"os/exec"
 
 	"github.com/gin-gonic/gin"
@@ -9,14 +8,20 @@ import (
 )
 
 func AddPasswordHandler(c *gin.Context) {
-	var req utils.PasswordEntry
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(400, gin.H{"error": "Invalid request payload"})
+	var newEntry utils.PasswordEntry
+
+	if err := c.BindJSON(&newEntry); err != nil {
+		c.JSON(500, gin.H{"error": "Failed to bind JSON data"})
+		return
 	}
-	cmd := exec.Command("pswd-cli", "add", "--service", req.Service, "--username", req.Username, "--password", req.Password)
-	// var out bytes.Buffer
-	// cmd.Stdout = &out
-	err := cmd.Run()
+
+	if newEntry.Service == "" || newEntry.Username == "" || newEntry.Password == "" {
+		c.JSON(400, gin.H{"error": "service, username, and password are required fields"})
+		return
+	}
+
+	cmd := exec.Command("/usr/local/bin/pswd-cli/pswd-cli", "add", "--service", newEntry.Service, "--username", newEntry.Username, "--password", newEntry.Password)
+	_, err := cmd.Output()
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to execute add subcommand"})
 		return
